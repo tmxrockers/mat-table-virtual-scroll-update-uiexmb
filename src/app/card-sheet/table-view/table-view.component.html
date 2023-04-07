@@ -1,0 +1,79 @@
+
+<cdk-virtual-scroll-viewport gridTableVirtualScroll 
+  (scrolledIndexChange)="nextBatch($event)">
+  <mat-table matSort [dataSource]="dataSource">
+
+		<ng-container *ngFor="let column of displayedColumns; let i = index" matColumnDef="{{ column }}">
+			<mat-header-cell class="centered" *matHeaderCellDef>
+				<div mat-sort-header>{{ column }}</div>
+			</mat-header-cell>
+			<mat-cell *matCellDef="let row" class="centered">{{ row[column] }}</mat-cell>
+		</ng-container>
+
+		<ng-container matColumnDef="progress">
+			<mat-header-cell *matHeaderCellDef [attr.colspan]="displayedColumns.length">
+				<mat-progress-bar mode="indeterminate" [class.show]="pending">
+        </mat-progress-bar>
+			</mat-header-cell>
+    </ng-container>
+
+    <ng-container *ngFor="let avg of average" matColumnDef=" {{ avg }}">
+      <mat-header-cell *matHeaderCellDef >
+				<div mat-sort-header>{{ avg }}</div>
+			</mat-header-cell>
+      <mat-cell *matCellDef="let row" class="centered">{{ row[avg] }}</mat-cell>
+    </ng-container>
+
+		<mat-header-row
+      *matHeaderRowDef="displayedColumns; sticky: sticky"
+      [style.top.px]="offset | async">
+    </mat-header-row>
+
+    <!-- <mat-header-row
+      *matHeaderRowDef="average; sticky: sticky"
+      [style.top.px]="offset | async">
+    </mat-header-row> -->
+
+		<mat-header-row
+      class="progress"
+      *matHeaderRowDef="['progress']; sticky: sticky"
+      [style.top.px]="(offset | async) + 56">
+    </mat-header-row>
+
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+	</mat-table>
+  <!-- <mat-table [@fadeInOutTranslate] mat-table #table [dataSource]="dataSource">
+      <ng-container *ngFor="let disCol of displayedColumns; let colIndex = index" matColumnDef="{{disCol}}">
+          <mat-header-cell layout-align="start center" class="centered" *matHeaderCellDef>
+            {{disCol}}
+            <mat-checkbox class="cbx" [checked]="checked" (change)="onSelect($event)"></mat-checkbox>
+            <div class="icon-text">
+              <mat-icon class="drgdrp">drag_handle</mat-icon>
+            </div>
+          </mat-header-cell>
+          <mat-cell layout-align="start center" class="centered" *matCellDef="let element "> {{element[disCol]}}
+          </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table> -->
+<!-- <table [@fadeInOutTranslate] mat-table #table [dataSource]="dataSource">
+      <ng-container *ngFor="let disCol of displayedColumns; let colIndex = index" matColumnDef="{{disCol}}">
+          <th mat-header-cell layout-align="start center" class="centered" *matHeaderCellDef>
+            {{disCol}}
+            <mat-checkbox class="cbx" [checked]="checked" (change)="onSelect($event)"></mat-checkbox>
+            <div class="icon-text">
+              <mat-icon cdkDrag class="drgdrp">drag_handle</mat-icon>
+            </div>
+          </th>
+          <td mat-cell layout-align="start center" class="centered" *matCellDef="let element "> {{element[disCol]}}
+          </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row cdkDrag *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table> -->
+
+</cdk-virtual-scroll-viewport>
